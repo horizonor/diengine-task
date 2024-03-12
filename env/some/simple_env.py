@@ -1,4 +1,5 @@
 import os
+import time
 
 import gymnasium
 import numpy as np
@@ -12,7 +13,7 @@ from pettingzoo.utils import wrappers
 from pettingzoo.utils.agent_selector import agent_selector
 
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
+render = 0.1
 
 def make_env(raw_env):
     def env(**kwargs):
@@ -281,6 +282,7 @@ class SimpleEnv(AECEnv):
 
         if self.render_mode == "human":
             self.render()
+            time.sleep(render)
 
     def enable_render(self, mode="human"):
         if not self.renderOn and mode == "human":

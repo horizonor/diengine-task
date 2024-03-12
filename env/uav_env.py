@@ -105,7 +105,8 @@ class raw_env(SimpleEnv, EzPickle):
             continuous_actions=continuous_actions,
             local_ratio=local_ratio,
         )
-        self.metadata["name"] = "simple_spread_v3"
+        self.render_mode = 'rgb_array'
+        self.metadata["name"] = "uav_env_v0"
 
 
 env = make_env(raw_env)
@@ -216,12 +217,12 @@ class Scenario(BaseScenario):
         n1, n2 = 0, 0
         for a in world.agents:
             if self.is_collision(a, agent) and a != agent:
-                n1 = 1
+                n1 += 1
         for u in world.users:
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 200 * n1 + 200 * n2
+            rew -= 5000 * n1 + 500 * n2
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -284,7 +285,7 @@ class Scenario(BaseScenario):
         for landmark in world.landmarks:
             landmark_pos.append(landmark.state.p_pos - agent.state.p_pos)
         phy_feature = np.concatenate(
-            [agent.state.p_vel] + [agent.state.p_pos] + other_pos + user_pos + landmark_pos
+            [agent.state.p_vel] + [agent.state.p_pos] + landmark_pos + other_pos + user_pos
         )
         return phy_feature
 

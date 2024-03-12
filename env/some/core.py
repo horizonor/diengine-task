@@ -199,7 +199,11 @@ class World:  # multi-agent world
                     else 0.0
                 )
                 p_force[i] = agent.action.u + noise
-                t_force = np.exp(agent.action.t) / np.sum(np.exp(agent.action.t))
+                t_force[i] = agent.action.t
+                # arr = agent.action.t[:len(self.landmarks)+1]
+                # t_force[i] = np.exp(arr) / np.sum(np.exp(arr))
+                # agent.action.t = agent.action.t[len(self.landmarks)+1:]
+
         return p_force, t_force
 
     # gather physical forces acting on entities
@@ -244,9 +248,12 @@ class World:  # multi-agent world
             # TODO 更新任务状态
             if entity.task_parts:  # If task_parts is not empty
                 for user_name, task_size in entity.task_parts.items():
+                    arr = t_force[i][:len(self.landmarks) + 1]
+                    arr1 = np.exp(arr) / np.sum(np.exp(arr))
+                    t_force[i]= t_force[i][len(self.landmarks)+1:]
                     entity.state.t[user_name] = {
                         'task_size': task_size,
-                        'task_distribution': t_force
+                        'task_distribution': arr1
                     }
             else:  # If task_parts is empty
                 entity.state.t = {}
