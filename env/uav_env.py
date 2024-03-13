@@ -226,7 +226,7 @@ class Scenario(BaseScenario):
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 20000 * n1 + 10000 * n2
+            rew -= 5000 * n1 + 6000 * n2
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
