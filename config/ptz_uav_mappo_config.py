@@ -8,7 +8,7 @@ n_user = 10
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='ptz_uav_mappo_seed0',
+    exp_name='learning_rate=5e-4_5000n1+500n2',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -23,6 +23,7 @@ main_config = dict(
         evaluator_env_num=evaluator_env_num,
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
+        rendermode='rgb_array',# rgb_array or human
     ),
     policy=dict(
         cuda=True,

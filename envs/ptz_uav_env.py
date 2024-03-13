@@ -75,6 +75,7 @@ class PettingZooEnv(BaseEnv):
         self._max_cycles = self._cfg.get('max_cycles', 25)
         self._act_scale = self._cfg.get('act_scale', False)
         self._agent_specific_global_state = self._cfg.get('agent_specific_global_state', False)
+        self._render_mode = self._cfg.rendermode
         if self._act_scale:
             assert self._continuous_actions, 'Only continuous action space env needs act_scale'
 
@@ -94,7 +95,7 @@ class PettingZooEnv(BaseEnv):
             parallel_env = parallel_wrapper_fn(_env)
             # init env
             self._env = parallel_env(
-                N=self._cfg.n_agent,num_user=self._cfg.n_user, num_station=self._cfg.n_landmark, continuous_actions=self._continuous_actions, max_cycles=self._max_cycles
+                N=self._cfg.n_agent,num_user=self._cfg.n_user, num_station=self._cfg.n_landmark, continuous_actions=self._continuous_actions, max_cycles=self._max_cycles, rendermode = self._render_mode
             )
             self._env.reset()
             self._agents = self._env.agents
@@ -343,12 +344,12 @@ class PettingZooEnv(BaseEnv):
         return self._reward_space
 class uav_env_raw_env(SimpleEnv):
 
-    def __init__(self, N=3, num_user=2, num_station=2, local_ratio=1, max_cycles=25, continuous_actions=True):
+    def __init__(self, N=3, num_user=2, num_station=2, local_ratio=1, max_cycles=25, continuous_actions=True, rendermode = 'rgb_array'):
         assert 0. <= local_ratio <= 1., "local_ratio is a proportion. Must be between 0 and 1."
         scenario = Scenario()
         world = scenario.make_world(N, num_user, num_station)
         super().__init__(scenario, world, max_cycles, continuous_actions=continuous_actions, local_ratio=local_ratio)
-        self.render_mode = 'human'
+        self.render_mode = rendermode
         self.metadata['name'] = "uav_env_v0"
 
 

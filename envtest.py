@@ -36,6 +36,7 @@ main_config = dict(
         evaluator_env_num=evaluator_env_num,
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
+        rendermode='human',  # rgb_array or human
     ),
     policy=dict(
         cuda=True,
@@ -53,7 +54,7 @@ main_config = dict(
             multi_gpu=False,
             epoch_per_collect=5,
             batch_size=3200,
-            learning_rate=5e-4,
+            learning_rate=8e-4,
             # ==============================================================
             # The following configs is algorithm-specific
             # ==============================================================
@@ -101,7 +102,7 @@ if __name__ == '__main__':
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\ptz_uav_mappo_seed0_240310_234429\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\learning_rate=8e-4_5000n1+500n2\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)
