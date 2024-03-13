@@ -9,7 +9,7 @@ n_user = 10
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='new_observation_3.13',
+    exp_name='no_one_hot_15000n1+10000n2',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -33,9 +33,9 @@ main_config = dict(
         model=dict(
             action_space='continuous',
             agent_num=n_agent,
-            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent,
+            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user,
             global_obs_shape=2 + 2 + n_user + n_landmark * 2 + (
-                    n_agent - 1) * 2 + 2 * n_user + n_agent + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user + n_agent,
+                    n_agent - 1) * 2 + 2 * n_user + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user,
             action_shape=5 + n_user * (n_landmark + 1),
         ),
         learn=dict(

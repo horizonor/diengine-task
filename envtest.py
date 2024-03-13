@@ -45,8 +45,8 @@ main_config = dict(
         model=dict(
             action_space='continuous',
             agent_num=n_agent,
-            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent,
-            global_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user + n_agent,
+            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user,
+            global_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user,
             action_shape=5 + n_user * (n_landmark + 1),
         ),
         learn=dict(
@@ -97,11 +97,11 @@ ptz_simple_spread_mappo_config = main_config
 ptz_simple_spread_mappo_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 1
+    seed = 2
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\new_observation_3.13\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\no_one_hot_15000n1+10000n2\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

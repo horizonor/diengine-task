@@ -340,8 +340,8 @@ class SimpleEnv(AECEnv):
                 radius = self.world.max_distance * 350  # scale_factor is the scale factor you choose
                 pygame.draw.circle(self.screen, (0,0,0), (x, y), radius, 1)
                 # Print the number of users the UAV is currently serving
-                message = f"UAV {entity.name} is serving {entity.serving_users} users"
-                # message = f"UAV {entity.name} rewards: {self.rewards[entity.name]}"
+                # message = f"UAV {entity.name} is serving {entity.serving_users} users"
+                message = f"UAV {entity.name} rewards: {self.rewards[entity.name]}"
                 message_x_pos = self.width * 0.05
                 message_y_pos = self.height * 0.95 - (self.height * 0.05 * text_line)
                 self.game_font.render_to(self.screen, (message_x_pos, message_y_pos), message, (0, 0, 0))

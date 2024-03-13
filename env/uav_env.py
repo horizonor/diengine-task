@@ -133,7 +133,8 @@ class Scenario(BaseScenario):
             agent.collide = True
             agent.silent = True
             agent.size = 0.05
-            agent.coverage = agent.h * math.tan(angle_radians)
+            agent.coverage = 0.2
+            # agent.coverage = agent.h * math.tan(angle_radians) #这里暂时简化为max_distance
         # add landmarks
         world.landmarks = [Landmark() for i in range(num_landmarks)]
         for i, landmark in enumerate(world.landmarks):
@@ -168,6 +169,7 @@ class Scenario(BaseScenario):
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
             agent.service_vector = np.zeros(len(world.users))
+
 
         for i, landmark in enumerate(world.landmarks):# 使得基站分布在两侧
             if i == 0:
@@ -224,7 +226,7 @@ class Scenario(BaseScenario):
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 5000 * n1 + 500 * n2
+            rew -= 20000 * n1 + 10000 * n2
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -289,7 +291,7 @@ class Scenario(BaseScenario):
         onehot_dim = np.array([1.0 if l is agent else 0.0 for l in world.agents])
 
         new_phy =  np.concatenate(
-            [agent.state.p_vel] + [agent.state.p_pos] + [agent.service_vector] + landmark_pos + other_pos + user_pos + [onehot_dim]
+            [agent.state.p_vel] + [agent.state.p_pos] + [agent.service_vector] + landmark_pos + other_pos + user_pos
         )
         phy_feature = np.concatenate(
             [agent.state.p_vel] + [agent.state.p_pos] + landmark_pos + other_pos + user_pos

@@ -124,7 +124,7 @@ class PettingZooEnv(BaseEnv):
                             low=float("-inf"),
                             high=float("inf"),
                             shape=(
-                                4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users + self._num_agents,
+                                4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users,
                             ),
                             dtype=np.float32
                         ),
@@ -156,7 +156,7 @@ class PettingZooEnv(BaseEnv):
                         low=float("-inf"),
                         high=float("inf"),
                         shape=(
-                            self._num_agents, self._env.observation_space('agent_0').shape[0] + 4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users + self._num_agents
+                            self._num_agents, self._env.observation_space('agent_0').shape[0] + 4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users
                         ),
                         dtype=np.float32
                     )
@@ -300,7 +300,7 @@ class PettingZooEnv(BaseEnv):
                 obs[:, 0:(4 + self._num_users + self._num_landmarks * 2)],  # agent itself's state + landmarks' position
                 np.zeros((self._num_agents,
                           (self._num_agents - 1) * 2), np.float32),  # Other agents' position(0-padding)
-                obs[:, -(self._num_users * 2 + self._num_agents):]  # user
+                obs[:, -(self._num_users * 2):]  # user
             ],
             1
         )
