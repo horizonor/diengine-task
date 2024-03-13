@@ -167,6 +167,8 @@ class Scenario(BaseScenario):
             agent.state.p_pos = np_random.uniform(-1, +1, world.dim_p)
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
+            agent.service_vector = np.zeros(len(world.users))
+
         for i, landmark in enumerate(world.landmarks):# 使得基站分布在两侧
             if i == 0:
                 landmark.state.p_pos = np.array([-1, 0])
@@ -284,10 +286,15 @@ class Scenario(BaseScenario):
         landmark_pos = []
         for landmark in world.landmarks:
             landmark_pos.append(landmark.state.p_pos - agent.state.p_pos)
+        onehot_dim = np.array([1.0 if l is agent else 0.0 for l in world.agents])
+
+        new_phy =  np.concatenate(
+            [agent.state.p_vel] + [agent.state.p_pos] + [agent.service_vector] + landmark_pos + other_pos + user_pos + [onehot_dim]
+        )
         phy_feature = np.concatenate(
             [agent.state.p_vel] + [agent.state.p_pos] + landmark_pos + other_pos + user_pos
         )
-        return phy_feature
+        return new_phy
 
     def G2A_trans(self, agent, user):
         # 从地面到天空的数据传输,返回计算能耗与时间延迟

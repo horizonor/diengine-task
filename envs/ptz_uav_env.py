@@ -124,14 +124,15 @@ class PettingZooEnv(BaseEnv):
                             low=float("-inf"),
                             high=float("inf"),
                             shape=(
-                                4 * self._num_agents + 2 * self._num_landmarks + 2 * self._num_users,
+                                4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users + self._num_agents,
                             ),
                             dtype=np.float32
                         ),
                         'agent_alone_state': gym.spaces.Box(
                             low=float("-inf"),
                             high=float("inf"),
-                            shape=(self._num_agents, 4 + 2 * self._num_landmarks + 2 * (self._num_agents - 1) + 2 * self._num_users),
+                            shape=(self._num_agents,
+                                   self._env.observation_space('agent_0').shape[0]),
                             dtype=np.float32
                         ),
                         'agent_alone_padding_state': gym.spaces.Box(
@@ -155,8 +156,7 @@ class PettingZooEnv(BaseEnv):
                         low=float("-inf"),
                         high=float("inf"),
                         shape=(
-                            self._num_agents, self._env.observation_space('agent_0').shape[0] + 4 * self._num_agents +
-                            2 * self._num_landmarks  + 2 * self._num_users
+                            self._num_agents, self._env.observation_space('agent_0').shape[0] + 4 * self._num_agents + 2 * self._num_landmarks + self._num_users + 2 * self._num_users + self._num_agents
                         ),
                         dtype=np.float32
                     )
@@ -291,15 +291,16 @@ class PettingZooEnv(BaseEnv):
         #                    - landmarks' positions (do not include other agents' positions)
         #                    - communication
         ret['agent_alone_state'] = obs
+        # 4 + self._num_users+ 2 * self._num_landmarks + 2 * (self._num_agents - 1)  + 2 * self._num_users + 2
         # agent_alone_padding_state: Shape (n_agent, 2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + 2 * self._num_users).
         #                            Contains the same information as agent_alone_state;
         #                            But 0-padding other agents' positions.
         ret['agent_alone_padding_state'] = np.concatenate(
             [
-                obs[:, 0:(4 + self._num_landmarks * 2)],  # agent itself's state + landmarks' position
+                obs[:, 0:(4 + self._num_users + self._num_landmarks * 2)],  # agent itself's state + landmarks' position
                 np.zeros((self._num_agents,
                           (self._num_agents - 1) * 2), np.float32),  # Other agents' position(0-padding)
-                obs[:, -self._num_users * 2:]  # user
+                obs[:, -(self._num_users * 2 + self._num_agents):]  # user
             ],
             1
         )

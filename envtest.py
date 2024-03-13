@@ -18,8 +18,8 @@ sys.path.append('D:/DI-engine/UAV')
 n_agent = 2
 n_landmark = 2
 n_user = 10
-collector_env_num = 8
-evaluator_env_num = 8
+collector_env_num = 1
+evaluator_env_num = 1
 main_config = dict(
     exp_name='ptz_uav_mappo_eval_seed0',
     env=dict(
@@ -45,9 +45,8 @@ main_config = dict(
         model=dict(
             action_space='continuous',
             agent_num=n_agent,
-            agent_obs_shape=2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user,
-            global_obs_shape=2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + n_user * 2 + n_agent * (2 + 2) +
-            n_landmark * 2 + n_user * 2,
+            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent,
+            global_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user + n_agent,
             action_shape=5 + n_user * (n_landmark + 1),
         ),
         learn=dict(
@@ -98,11 +97,11 @@ ptz_simple_spread_mappo_config = main_config
 ptz_simple_spread_mappo_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 0
+    seed = 1
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\learning_rate=8e-4_5000n1+500n2\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\new_observation_3.13\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

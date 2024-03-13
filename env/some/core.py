@@ -104,6 +104,7 @@ class Agent(Entity):  # properties of agent entities
 
         # new add
         self.serving_users = []
+        self.service_vector = None  # 二元服务向量
         self.h = 0.1  # meters altitude 无人机高度
         # task_parts
         self.task_parts = {}
@@ -119,13 +120,16 @@ class Agent(Entity):  # properties of agent entities
 
     def serve_user(self, users, max_distance):
         self.serving_users = [] # Reset the list of serving users
-        for user in users:
+        # 初始化服务向量
+        self.service_vector = np.zeros(len(users))
+        for i, user in enumerate(users):
             if user.served_by is not None and user.served_by != self:
                 continue  # Skip if the user is already served by another agent
             dist = np.sqrt(np.sum(np.square(self.state.p_pos - user.state.p_pos)))  # Calculate the distance
             if dist <= max_distance:
                 self.serving_users.append(user)
                 user.served_by = self
+                self.service_vector[i] = 1
 
     @property
     def num_serving_users(self):

@@ -1,5 +1,6 @@
 from easydict import EasyDict
 import sys
+
 sys.path.append('D:/DI-engine/UAV')
 
 n_agent = 2
@@ -8,7 +9,7 @@ n_user = 10
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='learning_rate=5e-4_5000n1+500n2',
+    exp_name='new_observation_3.13',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -23,7 +24,7 @@ main_config = dict(
         evaluator_env_num=evaluator_env_num,
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
-        rendermode='rgb_array',# rgb_array or human
+        rendermode='rgb_array',  # rgb_array or human
     ),
     policy=dict(
         cuda=True,
@@ -32,9 +33,9 @@ main_config = dict(
         model=dict(
             action_space='continuous',
             agent_num=n_agent,
-            agent_obs_shape=2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user,
-            global_obs_shape=2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + n_user * 2 + n_agent * (2 + 2) +
-            n_landmark * 2 + n_user * 2,
+            agent_obs_shape=2 + 2 + n_user + n_landmark * 2 + (n_agent - 1) * 2 + 2 * n_user + n_agent,
+            global_obs_shape=2 + 2 + n_user + n_landmark * 2 + (
+                    n_agent - 1) * 2 + 2 * n_user + n_agent + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user + n_agent,
             action_shape=5 + n_user * (n_landmark + 1),
         ),
         learn=dict(
@@ -87,4 +88,5 @@ ptz_simple_spread_mappo_create_config = create_config
 if __name__ == '__main__':
     # or you can enter `ding -m serial_onpolicy -c ptz_simple_spread_mappo_config.py -s 0`
     from ding.entry import serial_pipeline_onpolicy
+
     serial_pipeline_onpolicy((main_config, create_config), seed=0)
