@@ -9,7 +9,7 @@ n_user = 12
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.16_20user_200000n1+120000n2+50000n3',
+    exp_name='3.16_8.36_12user_200000n1+120000n2+50000n3_noise=none',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
