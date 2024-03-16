@@ -5,11 +5,11 @@ sys.path.append('D:/DI-engine/UAV')
 
 n_agent = 2
 n_landmark = 2
-n_user = 10
+n_user = 12
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.16_10user_100000n1+8000n2+50000n3',
+    exp_name='3.16_20user_200000n1+120000n2+50000n3',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
