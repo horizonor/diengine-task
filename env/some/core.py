@@ -90,7 +90,7 @@ class Agent(Entity):  # properties of agent entities
         # cannot observe the world
         self.blind = False
         # physical motor noise amount
-        self.u_noise = None
+        self.u_noise = 0.2
         # communication noise amount
         self.c_noise = None
         # control range

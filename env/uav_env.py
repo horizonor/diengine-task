@@ -212,21 +212,23 @@ class Scenario(BaseScenario):
         dist_min = agent1.coverage + agent2.coverage
         return True if dist < dist_min else False
 
-    def is_crossborder(self, agent):
+    def is_crossborder(self, agent): # 判断是否越界
         return True if np.abs(agent.state.p_pos[0]) > 1 or np.abs(agent.state.p_pos[1]) > 1 else False
 
     def reward(self, agent, world):
         # Agents are rewarded based on minimum agent distance to each landmark, penalized for collisions
         rew = 0
-        n1, n2 = 0, 0
+        n1, n2, n3 = 0, 0, 0
         for a in world.agents:
             if self.is_collision(a, agent) and a != agent:
                 n1 += 1
+            if self.is_crossborder(a):
+                n3 += 1
         for u in world.users:
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 100000 * n1 + 8000 * n2
+            rew -= 100000 * n1 + 8000 * n2 + 50000 * n3
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
