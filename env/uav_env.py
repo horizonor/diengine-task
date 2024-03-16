@@ -125,15 +125,15 @@ class Scenario(BaseScenario):
         # 任务维度为地表个数+1，因为无人机需要的决策是：{自身执行.基站1执行.基站2执行....}
         world.dim_t = num_users * (num_landmarks + 1)
         world.collaborative = True
-        world.max_distance = 0.2
+        world.max_distance = 0.35
         # add agents
         world.agents = [Agent() for i in range(num_agents)]
         for i, agent in enumerate(world.agents):
             agent.name = f"agent_{i}"
             agent.collide = True
             agent.silent = True
-            agent.size = 0.05
-            agent.coverage = 0.2
+            agent.size = 0.03
+            agent.coverage = 0.35
             # agent.coverage = agent.h * math.tan(angle_radians) #这里暂时简化为max_distance
         # add landmarks
         world.landmarks = [Landmark() for i in range(num_landmarks)]
@@ -142,7 +142,7 @@ class Scenario(BaseScenario):
             landmark.collide = False
             landmark.movable = False
             landmark.is_station = True
-            landmark.size = 0.02
+            landmark.size = 0.01
             landmark.id = i
         # add users
         world.users = [User() for i in range(num_users)]
@@ -150,7 +150,7 @@ class Scenario(BaseScenario):
             user.name = "user %d" % i
             user.collide = False
             user.movable = False
-            user.size = 0.04
+            user.size = 0.02
         return world
 
     def reset_world(self, world, np_random):
@@ -178,10 +178,10 @@ class Scenario(BaseScenario):
                 landmark.state.p_pos = np.array([1, 0])
             landmark.state.p_vel = np.zeros(world.dim_p)
         for i, user in enumerate(world.users):
-            if i < 5:
-                user.state.p_pos = np_random.uniform(0.2, 0.3, world.dim_p)
+            if i < 6:
+                user.state.p_pos = np_random.uniform(0.3, 0.7, world.dim_p)
             else:
-                user.state.p_pos = np_random.uniform(-0.3, -0.2, world.dim_p) # 使得用户分布在两个基站的两侧
+                user.state.p_pos = np_random.uniform(-0.6, -0.2, world.dim_p) # 使得用户分布在两个基站的两侧
 
             user.state.p_vel = np.zeros(world.dim_p)
 
@@ -226,7 +226,7 @@ class Scenario(BaseScenario):
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 5000 * n1 + 6000 * n2
+            rew -= 100000 * n1 + 8000 * n2
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
