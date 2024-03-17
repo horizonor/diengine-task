@@ -17,7 +17,7 @@ sys.path.append('D:/DI-engine/UAV')
 
 n_agent = 2
 n_landmark = 2
-n_user = 12
+n_user = 20
 collector_env_num = 1
 evaluator_env_num = 1
 main_config = dict(
@@ -97,11 +97,11 @@ ptz_simple_spread_mappo_config = main_config
 ptz_simple_spread_mappo_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 8
+    seed = 4
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.17_12.34_12user_100000n1+20000n2+50000n3_noise=none\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.17_8.15_reward_scale_80000n2_20user\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

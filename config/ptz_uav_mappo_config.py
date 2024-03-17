@@ -4,11 +4,11 @@ import sys
 sys.path.append('D:/DI-engine/UAV')
 n_agent = 2
 n_landmark = 2
-n_user = 12
+n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.17_12.34_12user_100000n1+20000n2+50000n3_noise=none',
+    exp_name='3.17_8.15_reward_scale_80000n2_20user',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',

@@ -164,8 +164,12 @@ class Scenario(BaseScenario):
         for i, user in enumerate(world.users):
             user.color = np.array([0.35, 0.25, 0.35])
         # set random initial states
-        for agent in world.agents:
-            agent.state.p_pos = np_random.uniform(-1, +1, world.dim_p)
+        for i, agent in enumerate(world.agents):
+            if i == 0:
+                agent.state.p_pos = np_random.uniform(-1, 1, world.dim_p)
+            else:
+                agent.state.p_pos = np_random.uniform(-1, 1, world.dim_p)
+            # agent.state.p_pos = np_random.uniform(-1, +1, world.dim_p)
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
             agent.service_vector = np.zeros(len(world.users))
@@ -178,7 +182,7 @@ class Scenario(BaseScenario):
                 landmark.state.p_pos = np.array([1, 0])
             landmark.state.p_vel = np.zeros(world.dim_p)
         for i, user in enumerate(world.users):
-            if i < 6:
+            if i < 7:
                 user.state.p_pos = np_random.uniform(0.3, 0.7, world.dim_p)
             else:
                 user.state.p_pos = np_random.uniform(-0.6, -0.2, world.dim_p) # 使得用户分布在两个基站的两侧
@@ -227,9 +231,9 @@ class Scenario(BaseScenario):
         for u in world.users:
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
-        if n1 != 0 or n2 != 0:
-            # TODO 本参数依然存在未服务一名用户的情况
-            rew -= 100000 * n1 + 20000 * n2 + 50000 * n3
+        if n1 != 0 or n2 != 0 or n3 != 0:
+            # TODO
+            rew -= 100000 * n1 + 80000 * n2 + 50000 * n3
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -248,6 +252,9 @@ class Scenario(BaseScenario):
                     T_n += T_m
                     E_n += E_m
                 rew -= w1 * E_n + w2 * T_n
+        # add reward scaling
+        reward_scale = 0.00001
+        rew *= reward_scale
         return rew
 
     # def global_reward(self, world):
