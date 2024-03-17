@@ -228,7 +228,8 @@ class Scenario(BaseScenario):
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
         if n1 != 0 or n2 != 0:
-            rew -= 100000 * n1 + 8000 * n2 + 50000 * n3
+            # TODO 本参数依然存在未服务一名用户的情况
+            rew -= 100000 * n1 + 20000 * n2 + 50000 * n3
         else:
             for agent in world.agents:
                 E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0

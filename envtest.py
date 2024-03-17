@@ -97,11 +97,11 @@ ptz_simple_spread_mappo_config = main_config
 ptz_simple_spread_mappo_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 3
+    seed = 8
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\(bestt)3.16_12user_100000n1+8000n2+50000n3\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.17_12.34_12user_100000n1+20000n2+50000n3_noise=none\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)
