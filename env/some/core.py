@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-flag_plot = False
+flag_plot = True
 class EntityState:  # physical/external base state of all entities
     def __init__(self):
         # physical position
