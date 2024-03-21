@@ -81,7 +81,8 @@ class raw_env(SimpleEnv, EzPickle):
             continuous_actions=True,
             render_mode=None,
             num_user=1,
-            num_station=1
+            num_station=1,
+            flag_plot=False
     ):
         EzPickle.__init__(
             self,
@@ -95,7 +96,7 @@ class raw_env(SimpleEnv, EzPickle):
                 0.0 <= local_ratio <= 1.0
         ), "local_ratio is a proportion. Must be between 0 and 1."
         scenario = Scenario()
-        world = scenario.make_world(N = N, num_user = num_user, num_station = num_station)
+        world = scenario.make_world(N = N, num_user = num_user, num_station = num_station,flag_plot=flag_plot)
         SimpleEnv.__init__(
             self,
             scenario=scenario,
@@ -114,11 +115,12 @@ parallel_env = parallel_wrapper_fn(env)
 
 
 class Scenario(BaseScenario):
-    def make_world(self, N=1, num_user=1, num_station=1):
+    def make_world(self, N=1, num_user=1, num_station=1, flag_plot=False):
         world = World()
         # set any world properties first
         world.dim_c = 0
         num_agents = N
+        world.flag_plot = flag_plot
         num_landmarks = num_station
         global num_users
         num_users = num_user
@@ -182,7 +184,7 @@ class Scenario(BaseScenario):
                 landmark.state.p_pos = np.array([1, 0])
             landmark.state.p_vel = np.zeros(world.dim_p)
         for i, user in enumerate(world.users):
-            if i < 7:
+            if i < 10:
                 user.state.p_pos = np_random.uniform(0.3, 0.7, world.dim_p)
             else:
                 user.state.p_pos = np_random.uniform(-0.6, -0.2, world.dim_p) # 使得用户分布在两个基站的两侧

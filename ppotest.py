@@ -37,6 +37,7 @@ main_config = dict(
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
         rendermode='human',  # rgb_array or human
+        flag_plot=False  # 是否绘制图像
     ),
     policy=dict(
         cuda=True,

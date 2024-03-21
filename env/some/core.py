@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-flag_plot = True
+
 class EntityState:  # physical/external base state of all entities
     def __init__(self):
         # physical position
@@ -158,7 +158,9 @@ class World:  # multi-agent world
         # contact response parameters
         self.contact_force = 1e2
         self.contact_margin = 1e-3
+        # 记录图片编号
         self.counter = 0
+        self.flag_plot = False
 
     # return all entities in the world
     @property
@@ -191,12 +193,10 @@ class World:  # multi-agent world
         self.integrate_state(p_force, t_force)
         # update agent state
 
-        for agent in self.agents:
-            self.update_agent_state(agent)
-            if agent.task_parts and flag_plot:
-                filename = f'task_distribution_{self.counter}.png'
-                self.plot_task_distribution(agent, filename)
-                self.counter += 1
+        if self.flag_plot:
+            filename = f'task_distribution_{self.counter}.png'
+            self.plot_task_distribution_together(self.agents, filename)
+            self.counter += 1
 
     # gather agent action forces
     def apply_action_force(self, p_force, t_force):
@@ -300,23 +300,27 @@ class World:  # multi-agent world
         return [force_a, force_b]
 
     # 绘制任务分布图
-    def plot_task_distribution(self, agent, filename):
+    def plot_task_distribution_together(self, agents, filename):
         colors = ['r', 'g', 'b']
         bar_width = 0.35
 
-        # 获取用户和任务分布数据
-        users = list(agent.state.t.keys())
-        task_distributions = [agent.state.t[user]['task_distribution'] for user in users]
+        fig, axs = plt.subplots(1, len(agents))  # 创建一个1行，len(agents)列的子图
 
-        for i, task_distribution in enumerate(task_distributions):
-            plt.bar(i, task_distribution[0], color=colors[0], width=bar_width)
-            plt.bar(i, task_distribution[1], bottom=task_distribution[0], color=colors[1], width=bar_width)
-            plt.bar(i, task_distribution[2], bottom=task_distribution[0] + task_distribution[1], color=colors[2],
-                    width=bar_width)
+        for i, agent in enumerate(agents):
+            # 获取用户和任务分布数据
+            users = list(agent.state.t.keys())
+            task_distributions = [agent.state.t[user]['task_distribution'] for user in users]
 
-        plt.xticks(np.arange(len(users)), users)
-        plt.legend()  # 显示图例
-        plt.title(agent.name)  # 添加标题
+            for j, task_distribution in enumerate(task_distributions):
+                axs[i].bar(j, task_distribution[0], color=colors[0], width=bar_width)
+                axs[i].bar(j, task_distribution[1], bottom=task_distribution[0], color=colors[1], width=bar_width)
+                axs[i].bar(j, task_distribution[2], bottom=task_distribution[0] + task_distribution[1], color=colors[2],
+                           width=bar_width)
 
-        # 使用 savefig 函数保存图表，你可以指定任何你想要的文件名和路径
+            # 只绘制用户名称后面的数字部分
+            user_numbers = [user.split(' ')[1] for user in users]
+            axs[i].set_xticks(np.arange(len(users)))
+            axs[i].set_xticklabels(user_numbers)
+            axs[i].set_title(agent.name)  # 添加标题
+
         plt.savefig(filename)
