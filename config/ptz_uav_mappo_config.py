@@ -8,7 +8,7 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.17_8.15_reward_scale_80000n2_20user',
+    exp_name='3.21_mappo_1e8step',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -71,6 +71,9 @@ main_config = dict(
         ),
         other=dict(),
     ),
+    wandb_logger=dict(
+        gradient_logger=True, video_logger=True, plot_logger=True, action_logger=True, return_logger=True
+    ),
 )
 main_config = EasyDict(main_config)
 create_config = dict(
@@ -89,4 +92,4 @@ if __name__ == '__main__':
     # or you can enter `ding -m serial_onpolicy -c ptz_simple_spread_mappo_config.py -s 0`
     from ding.entry import serial_pipeline_onpolicy
 
-    serial_pipeline_onpolicy((main_config, create_config), seed=0)
+    serial_pipeline_onpolicy((main_config, create_config), seed=0, max_env_step=int(3e6))

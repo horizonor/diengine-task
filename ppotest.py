@@ -37,7 +37,7 @@ main_config = dict(
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
         rendermode='human',  # rgb_array or human
-        flag_plot=False  # 是否绘制图像
+        flag_plot=True  # 是否绘制图像
     ),
     policy=dict(
         cuda=True,
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.17_8.15_reward_scale_80000n2_20user\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.21_mappo_1e8step\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

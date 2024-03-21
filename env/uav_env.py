@@ -255,7 +255,8 @@ class Scenario(BaseScenario):
                     E_n += E_m
                 rew -= w1 * E_n + w2 * T_n
         # add reward scaling
-        reward_scale = 0.00001
+        # reward_scale = 0.00001
+        reward_scale = 0.001
         rew *= reward_scale
         return rew
 
