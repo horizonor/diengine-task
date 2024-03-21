@@ -8,7 +8,7 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.21_mappo_1e8step',
+    exp_name='3.21_17.40_mappo_reward_scale = 0.001',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',

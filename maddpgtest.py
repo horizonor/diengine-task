@@ -38,7 +38,7 @@ main_config = dict(
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
         rendermode='human',  # rgb_array or human
-        flag_plot=True
+        flag_plot=False
     ),
     policy=dict(
         cuda=True,
@@ -95,11 +95,11 @@ ptz_simple_spread_maddpg_config = main_config
 ptz_simple_spread_maddpg_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 0
+    seed = 5
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.21_maddpg_1e8\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.21_19.15_maddpg_reward_scale_0.001\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

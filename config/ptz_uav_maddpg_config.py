@@ -8,7 +8,7 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.21_maddpg_1e8',
+    exp_name='3.21_20.25_TD3_reward_scale_0.001',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -37,7 +37,7 @@ main_config = dict(
                     n_agent - 1) * 2 + 2 * n_user + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user,
             action_shape=5 + n_user * (n_landmark + 1),
             action_space='regression',
-            twin_critic=False, # True for TD3
+            twin_critic=True, # True for TD3
         ),
         learn=dict(
             update_per_collect=50,
@@ -84,4 +84,4 @@ ptz_simple_spread_maddpg_create_config = create_config
 if __name__ == '__main__':
     # or you can enter `ding -m serial_entry -c ptz_simple_spread_maddpg_config.py -s 0`
     from ding.entry import serial_pipeline
-    serial_pipeline((main_config, create_config), seed=0, max_env_step=int(1e8))
+    serial_pipeline((main_config, create_config), seed=0, max_env_step=int(7e6))
