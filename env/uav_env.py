@@ -233,31 +233,30 @@ class Scenario(BaseScenario):
         for u in world.users:
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
-        if n1 != 0 or n2 != 0 or n3 != 0:
-            # TODO
-            rew -= 100000 * n1 + 80000 * n2 + 50000 * n3
-        else:
-            for agent in world.agents:
-                E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                for user in agent.serving_users:
-                    T_EC, T_A2G, E_A2G = 0, 0, 0
-                    E_G2A, T_G2A = self.G2A_trans(agent, user)
-                    E_UAV, T_UAV = self.UAV_computing(agent, user)
-                    for landmark in world.landmarks:
-                        E_A2Gi, T_A2Gi = self.A2G_trans(agent, user, landmark)
-                        T_ECi = self.EC_computing(agent, user, landmark, num_users)
-                        T_EC += T_ECi
-                        T_A2G += T_A2Gi
-                        E_A2G += E_A2Gi
-                    T_m = (T_G2A + max(T_UAV,T_A2G+T_EC)) #单个用户的时间
-                    E_m = E_G2A+ E_UAV + E_A2G
-                    T_n += T_m
-                    E_n += E_m
-                rew -= w1 * E_n + w2 * T_n
+        # if n1 != 0 or n2 != 0 or n3 != 0:
+        rew -= 2000 * n1 + 80 * n2 + 2000 * n3
+        # else:
+        for agent in world.agents:
+            E_G2A, T_G2A, E_UAV, T_UAV, E_A2G, T_A2G, T_EC, T_m, T_n, E_n,E_m = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            for user in agent.serving_users:
+                T_EC, T_A2G, E_A2G = 0, 0, 0
+                E_G2A, T_G2A = self.G2A_trans(agent, user)
+                E_UAV, T_UAV = self.UAV_computing(agent, user)
+                for landmark in world.landmarks:
+                    E_A2Gi, T_A2Gi = self.A2G_trans(agent, user, landmark)
+                    T_ECi = self.EC_computing(agent, user, landmark, num_users)
+                    T_EC += T_ECi
+                    T_A2G += T_A2Gi
+                    E_A2G += E_A2Gi
+                T_m = (T_G2A + max(T_UAV,T_A2G+T_EC)) #单个用户的时间
+                E_m = E_G2A+ E_UAV + E_A2G
+                T_n += T_m
+                E_n += E_m
+            rew -= w1 * E_n + w2 * T_n
         # add reward scaling
         # reward_scale = 0.00001
-        reward_scale = 0.0001
-        rew *= reward_scale
+        # reward_scale = 0.0001
+        # rew *= reward_scale
         return rew
 
     # def global_reward(self, world):

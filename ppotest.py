@@ -28,7 +28,7 @@ main_config = dict(
         n_agent=n_agent,
         n_landmark=n_landmark,
         n_user=n_user,
-        max_cycles=25,
+        max_cycles=30,
         agent_obs_only=False,
         agent_specific_global_state=True,
         continuous_actions=True,
@@ -98,11 +98,11 @@ ptz_simple_spread_mappo_config = main_config
 ptz_simple_spread_mappo_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 5
+    seed = 0
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.21_17.40_mappo_reward_scale = 0.001\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.22_13.18_ppocycle30\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

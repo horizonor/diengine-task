@@ -8,14 +8,14 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.21_20.25_TD3_reward_scale_0.001',
+    exp_name='3.22_19.08_TD3_cycle30',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
         n_agent=n_agent,
         n_landmark=n_landmark,
         n_user=n_user,
-        max_cycles=25,
+        max_cycles=30,
         agent_obs_only=False,
         agent_specific_global_state=True,
         continuous_actions=True,  # ddpg only support continuous action space
@@ -75,7 +75,7 @@ create_config = dict(
         type='petting_zoo',
     ),
     env_manager=dict(type='subprocess'),
-    policy=dict(type='ddpg'),
+    policy=dict(type='td3'),
 )
 create_config = EasyDict(create_config)
 ptz_simple_spread_maddpg_config = main_config
@@ -84,4 +84,4 @@ ptz_simple_spread_maddpg_create_config = create_config
 if __name__ == '__main__':
     # or you can enter `ding -m serial_entry -c ptz_simple_spread_maddpg_config.py -s 0`
     from ding.entry import serial_pipeline
-    serial_pipeline((main_config, create_config), seed=0, max_env_step=int(7e6))
+    serial_pipeline((main_config, create_config), seed=0)

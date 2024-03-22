@@ -301,7 +301,7 @@ class World:  # multi-agent world
 
     # 绘制任务分布图
     def plot_task_distribution_together(self, agents, filename):
-        colors = ['r', 'g', 'b']
+        colors = ['r', 'y', 'b']
         bar_width = 0.35
 
         fig, axs = plt.subplots(1, len(agents))  # 创建一个1行，len(agents)列的子图
@@ -309,6 +309,9 @@ class World:  # multi-agent world
         for i, agent in enumerate(agents):
             # 获取用户和任务分布数据
             users = list(agent.state.t.keys())
+            # 按照用户ID从小到大排序
+            users.sort(key=lambda x: int(x.split(' ')[1]))
+
             task_distributions = [agent.state.t[user]['task_distribution'] for user in users]
 
             for j, task_distribution in enumerate(task_distributions):

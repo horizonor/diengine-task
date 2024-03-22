@@ -28,7 +28,7 @@ main_config = dict(
         n_agent=n_agent,
         n_landmark=n_landmark,
         n_user=n_user,
-        max_cycles=25,
+        max_cycles=30,
         agent_obs_only=False,
         agent_specific_global_state=True,
         continuous_actions=True,  # ddpg only support continuous action space
@@ -50,7 +50,7 @@ main_config = dict(
                     n_agent - 1) * 2 + 2 * n_user + 4 * n_agent + 2 * n_landmark + n_user + 2 * n_user,
             action_shape=5 + n_user * (n_landmark + 1),
             action_space='regression',
-            twin_critic=False,
+            twin_critic=True,
         ),
         learn=dict(
             update_per_collect=50,
@@ -95,11 +95,11 @@ ptz_simple_spread_maddpg_config = main_config
 ptz_simple_spread_maddpg_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 5
+    seed = 4
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.21_19.15_maddpg_reward_scale_0.001\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.22_17.46_TD3_cycle30\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)
