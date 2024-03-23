@@ -8,7 +8,7 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.22_19.08_TD3_cycle30',
+    exp_name='3.23.11.39_TD3_cycle30_scale+0.01',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -84,4 +84,4 @@ ptz_simple_spread_maddpg_create_config = create_config
 if __name__ == '__main__':
     # or you can enter `ding -m serial_entry -c ptz_simple_spread_maddpg_config.py -s 0`
     from ding.entry import serial_pipeline
-    serial_pipeline((main_config, create_config), seed=0)
+    serial_pipeline((main_config, create_config), seed=0, max_env_step=int(4e6))

@@ -38,7 +38,7 @@ main_config = dict(
         n_evaluator_episode=evaluator_env_num,
         stop_value=0,
         rendermode='human',  # rgb_array or human
-        flag_plot=False
+        flag_plot=True
     ),
     policy=dict(
         cuda=True,
@@ -88,18 +88,18 @@ create_config = dict(
         type='petting_zoo',
     ),
     env_manager=dict(type='subprocess'),
-    policy=dict(type='ddpg'),
+    policy=dict(type='td3'),
 )
 create_config = EasyDict(create_config)
 ptz_simple_spread_maddpg_config = main_config
 ptz_simple_spread_maddpg_create_config = create_config
 
 if __name__ == '__main__':
-    seed = 4
+    seed = 0
     input_cfg = (main_config, create_config)
     env_setting = None
     # Please add your model path here.
-    model_path = r'D:\DI-engine\UAV\config\3.22_17.46_TD3_cycle30\ckpt\ckpt_best.pth.tar'
+    model_path = r'D:\DI-engine\UAV\config\3.23.11.39_TD3_cycle30_scale+0.01\ckpt\ckpt_best.pth.tar'
 
     if isinstance(input_cfg, str):
         cfg, create_cfg = read_config(input_cfg)

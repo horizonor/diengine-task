@@ -8,7 +8,7 @@ n_user = 20
 collector_env_num = 8
 evaluator_env_num = 8
 main_config = dict(
-    exp_name='3.22_13.18_cycle30',
+    exp_name='3.22_23.30_cycle30',
     env=dict(
         env_family='mpe',
         env_id='uav_env_v0',
@@ -92,4 +92,4 @@ if __name__ == '__main__':
     # or you can enter `ding -m serial_onpolicy -c ptz_simple_spread_mappo_config.py -s 0`
     from ding.entry import serial_pipeline_onpolicy
 
-    serial_pipeline_onpolicy((main_config, create_config), seed=0, max_env_step=int(8e6))
+    serial_pipeline_onpolicy((main_config, create_config), seed=0, max_env_step=int(4e6))

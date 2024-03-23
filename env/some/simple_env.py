@@ -341,11 +341,11 @@ class SimpleEnv(AECEnv):
                 pygame.draw.circle(self.screen, (0,0,0), (x, y), radius, 1)
                 # Print the number of users the UAV is currently serving
                 # message = f"UAV {entity.name} is serving {entity.serving_users} users"
-                message = f"UAV {entity.name} rewards: {self.rewards[entity.name]}"
-                message_x_pos = self.width * 0.05
-                message_y_pos = self.height * 0.95 - (self.height * 0.05 * text_line)
-                self.game_font.render_to(self.screen, (message_x_pos, message_y_pos), message, (0, 0, 0))
-                text_line += 1
+                # message = f"UAV {entity.name} rewards: {self.rewards[entity.name]}"
+                # message_x_pos = self.width * 0.05
+                # message_y_pos = self.height * 0.95 - (self.height * 0.05 * text_line)
+                # self.game_font.render_to(self.screen, (message_x_pos, message_y_pos), message, (0, 0, 0))
+                # text_line += 1
             assert (
                 0 < x < self.width and 0 < y < self.height
             ), f"Coordinates {(x, y)} are out of bounds."

@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import matplotlib.patches as mpatches
 class EntityState:  # physical/external base state of all entities
     def __init__(self):
         # physical position
@@ -300,6 +300,8 @@ class World:  # multi-agent world
         return [force_a, force_b]
 
     # 绘制任务分布图
+
+
     def plot_task_distribution_together(self, agents, filename):
         colors = ['r', 'y', 'b']
         bar_width = 0.35
@@ -325,5 +327,16 @@ class World:  # multi-agent world
             axs[i].set_xticks(np.arange(len(users)))
             axs[i].set_xticklabels(user_numbers)
             axs[i].set_title(agent.name)  # 添加标题
+            axs[i].set_xlabel("user_id")  # 添加x轴标签
+        # 创建一个图例
+        patches = [
+            mpatches.Patch(color='r', label='UAV'),
+            mpatches.Patch(color='y', label='UE1'),
+            mpatches.Patch(color='b', label='UE2')
+        ]
+        fig.legend(handles=patches, loc='center right', bbox_to_anchor=(1, 0.5))
+        fig.text(0, 0.5, 'task_distribution', va='center', rotation='vertical')
+        # 调整图表的边距
+        plt.subplots_adjust(right=0.85)
 
         plt.savefig(filename)

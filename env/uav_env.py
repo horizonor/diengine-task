@@ -227,9 +227,9 @@ class Scenario(BaseScenario):
         n1, n2, n3 = 0, 0, 0
         for a in world.agents:
             if self.is_collision(a, agent) and a != agent:
-                n1 += 1
+                n1 += 1 # 服务范围重叠惩罚
             if self.is_crossborder(a):
-                n3 += 1
+                n3 += 1 # 越界惩罚
         for u in world.users:
             if u.served_by is None:
                 n2 += 1 # 每次有未被服务的用户，n2+1
@@ -255,8 +255,8 @@ class Scenario(BaseScenario):
             rew -= w1 * E_n + w2 * T_n
         # add reward scaling
         # reward_scale = 0.00001
-        # reward_scale = 0.0001
-        # rew *= reward_scale
+        reward_scale = 0.01
+        rew *= reward_scale
         return rew
 
     # def global_reward(self, world):
@@ -300,14 +300,14 @@ class Scenario(BaseScenario):
         landmark_pos = []
         for landmark in world.landmarks:
             landmark_pos.append(landmark.state.p_pos - agent.state.p_pos)
-        onehot_dim = np.array([1.0 if l is agent else 0.0 for l in world.agents])
+        # onehot_dim = np.array([1.0 if l is agent else 0.0 for l in world.agents])
 
         new_phy =  np.concatenate(
             [agent.state.p_vel] + [agent.state.p_pos] + [agent.service_vector] + landmark_pos + other_pos + user_pos
         )
-        phy_feature = np.concatenate(
-            [agent.state.p_vel] + [agent.state.p_pos] + landmark_pos + other_pos + user_pos
-        )
+        # phy_feature = np.concatenate(
+        #     [agent.state.p_vel] + [agent.state.p_pos] + landmark_pos + other_pos + user_pos
+        # )
         return new_phy
 
     def G2A_trans(self, agent, user):
